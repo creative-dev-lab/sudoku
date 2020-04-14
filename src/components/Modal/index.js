@@ -1,10 +1,10 @@
 import React from 'react';
-import { Modal, Text, View } from 'react-native';
+import { Modal as MyModal, Text, View } from 'react-native';
 import styles from './styles';
 
 export default function Modal({ children, onClose, title, ...rest }) {
     return (
-        <Modal
+        <MyModal
             animationType="slide"
             presentationStyle="overFullScreen"
             transparent
@@ -21,6 +21,6 @@ export default function Modal({ children, onClose, title, ...rest }) {
                     {children}
                 </View>
             </View>
-        </Modal>
+        </MyModal>
     );
 }

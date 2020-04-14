@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, FlatList, TouchableOpacity, SafeAreaView, Button } from 'react-native'
 import { Picker } from '@react-native-community/picker'
-import Modal from '../Modal'
+import Modal from '../../components/Modal'
 import { sudoku } from '../../consts'
 import styles from './styles'
 
@@ -23,12 +23,15 @@ export default function Sudoku() {
     const checkItem = (index, subIndex) => {
         console.log('item clicked=', index + " " + subIndex);
         if (index === 6 && subIndex === 0) {
-
             setModalVisible(true)
         }
         if (index === 13 && subIndex === 1) {
             alert('item clicked')
         }
+    }
+
+    const itemSelect = (itemValue, itemIndex) => {
+        setPicker1(itemValue)
     }
 
     const selectValue = () => {
@@ -71,7 +74,7 @@ export default function Sudoku() {
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={picker1}
-                            onValueChange={(itemValue, itemIndex) => setPicker1(itemValue)} >
+                            onValueChange={(itemValue, itemIndex) => itemSelect(itemValue, itemIndex)} >
                             <Picker.Item label="1" value="1" />
                             <Picker.Item label="2" value="2" />
                             <Picker.Item label="3" value="3" />
