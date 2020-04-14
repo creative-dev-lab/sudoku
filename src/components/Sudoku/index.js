@@ -3,12 +3,13 @@ import { Text, View, FlatList, TouchableOpacity, SafeAreaView, Button } from 're
 import { Picker } from '@react-native-community/picker'
 import Modal from '../../components/Modal'
 import { sudoku } from '../../consts'
+import { replaceAt } from '../../utils';
 import styles from './styles'
 
 export default function Sudoku() {
     const [dataSource, setDataSource] = useState()
-    const [picker1, setPicker1] = useState()
-    const [picker2, setPicker2] = useState()
+    const [picker, setPicker] = useState()
+    const [index, setIndex] = useState()
     const [modalVisible, setModalVisible] = useState(false)
 
     useEffect(() => {
@@ -21,21 +22,37 @@ export default function Sudoku() {
     }, [])
 
     const checkItem = (index, subIndex) => {
-        console.log('item clicked=', index + " " + subIndex);
         if (index === 6 && subIndex === 0) {
+            setIndex(index)
             setModalVisible(true)
         }
         if (index === 13 && subIndex === 1) {
-            alert('item clicked')
+            setIndex(index)
+            setModalVisible(true)
         }
     }
 
     const itemSelect = (itemValue, itemIndex) => {
-        setPicker1(itemValue)
+        setPicker(itemValue)
     }
 
     const selectValue = () => {
         setModalVisible(false)
+        if(index === 6) {
+            dataSource[6] = replaceAt(dataSource[6], 0, picker);
+            if(picker !== '7') {
+                setTimeout(() => {
+                    alert('Not correct value, Please enter again')
+                }, 200)
+            }
+        } else {
+            dataSource[13] = replaceAt(dataSource[13], 1, picker);
+            if(picker !== '9') {
+                setTimeout(() => {
+                    alert('Not correct value, Please enter again')
+                }, 200)
+            }
+        }
     }
 
     const sudokuItem = (item, index) => {
@@ -73,7 +90,7 @@ export default function Sudoku() {
                     onClose={() => setModalVisible(false)}>
                     <View style={styles.pickerContainer}>
                         <Picker
-                            selectedValue={picker1}
+                            selectedValue={picker}
                             onValueChange={(itemValue, itemIndex) => itemSelect(itemValue, itemIndex)} >
                             <Picker.Item label="1" value="1" />
                             <Picker.Item label="2" value="2" />
