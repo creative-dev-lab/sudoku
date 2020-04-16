@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Text, View, FlatList, TouchableOpacity, SafeAreaView, Button } from 'react-native'
 import { Picker } from '@react-native-community/picker'
 import Modal from '../../components/Modal'
-import { sudoku } from '../../consts'
-import { replaceAt } from '../../utils';
+import { sudoku, sudoku_initial } from '../../consts'
+import { replaceAt, generate_sudoku } from '../../utils';
 import styles from './styles'
 
 export default function Sudoku() {
@@ -22,14 +22,14 @@ export default function Sudoku() {
     }, [])
 
     const checkItem = (index, subIndex) => {
-        if (index === 6 && subIndex === 0) {
-            setIndex(index)
-            setModalVisible(true)
-        }
-        if (index === 13 && subIndex === 1) {
-            setIndex(index)
-            setModalVisible(true)
-        }
+        // if (index === 6 && subIndex === 0) {
+        //     setIndex(index)
+        //     setModalVisible(true)
+        // }
+        // if (index === 13 && subIndex === 1) {
+        //     setIndex(index)
+        //     setModalVisible(true)
+        // }
     }
 
     const itemSelect = (itemValue, itemIndex) => {
@@ -53,6 +53,12 @@ export default function Sudoku() {
                 }, 200)
             }
         }
+    }
+
+    const generateSudoku = () => {
+        let sudoku_string = generate_sudoku(sudoku_initial)
+        let su_arr = sudoku_string.split(' ');
+        setDataSource(su_arr)
     }
 
     const sudokuItem = (item, index) => {
@@ -84,6 +90,7 @@ export default function Sudoku() {
                     keyExtractor={(item, index) => index.toString()}
                     style={styles.flatlist}
                 />
+                <Button title={'Generate'} onPress={generateSudoku}/>
                 <Modal
                     visible={modalVisible}
                     title={'Choose a Digit'}
